@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="false" name="Suite">
+<listeners>
+	<listener class-name="com.qa.listeners.TestListener" />
+</listeners>
+  <test name="Test">
+  <parameter name="platformName" value="Android" />
+  <parameter name="UDID" value="RR8R105VJLX" />
+    <classes>
+<!-- <class name="com.qa.tests.LoginTests"/> -->
+ <!-- 		<methods>
+      		<include name = "invalidUsername" />
+      	</methods> -->
+      <class name="com.qa.tests.ProductTests"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
