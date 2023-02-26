@@ -1,0 +1,8 @@
+
+
+# ignore ALL files in ANY directory named :
+logs/
+Screenshots/
+test-output/
+videos/
+target/

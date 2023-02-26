@@ -2,46 +2,87 @@ package com.qa;
 
 import com.qa.utils.TestUtils;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.InteractsWithApps;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.screenrecording.CanRecordScreen;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
 	
 	protected static AppiumDriver driver;
 	protected static Properties props;
 	protected static HashMap<String, String> strings = new HashMap<String, String>();
+	protected static String dateTime;
 	InputStream inputStream;
 	InputStream stringsis;
-	TestUtils utils;
+	protected static TestUtils utils;
 	
 	public BaseTest() {
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+	}
+	
+	@BeforeMethod
+	public void beforeMethod() {
+		((CanRecordScreen) driver).startRecordingScreen();
+	}
+	
+	@AfterMethod
+	public void afterMethod(ITestResult result) {
+		String media = ((CanRecordScreen) driver).stopRecordingScreen();
+		Map<String,String> params = result.getTestContext().getCurrentXmlTest().getAllParameters();
+		String dir = "videos" + File.separator + params.get("platformName") + "_" +
+				params.get("UDID") + File.separator + dateTime + File.separator +
+				result.getTestClass().getRealClass().getSimpleName();
+		File videoDir = new File(dir);
+		
+		if(!videoDir.exists()) {
+			videoDir.mkdirs();
+		}
+		
+		try {
+			FileOutputStream stream = new FileOutputStream(videoDir + File.separator + result.getName() + ".mp4");
+			stream.write(Base64.decodeBase64(media));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
   
   @Parameters({"platformName", "UDID"})
   @BeforeTest
   public void beforeTest(String platformName, String UDID) throws Exception {
 	  try {
+		  utils = new TestUtils();
+		  dateTime = utils.getDateTime();
 		  props = new Properties();
 		  String propFileName = "config.properties";
 		  String xmlFileName = "strings/strings.xml";
@@ -50,7 +91,6 @@ public class BaseTest {
 		  props.load(inputStream);
 		  
 		  stringsis = getClass().getClassLoader().getResourceAsStream(xmlFileName);
-		  utils = new TestUtils();
 		  strings = utils.parseStringXML(stringsis);
 		  
 		  DesiredCapabilities caps = new DesiredCapabilities();
@@ -83,6 +123,14 @@ public class BaseTest {
 			stringsis.close();
 		}
 	}
+  }
+  
+  public AppiumDriver getDriver() {
+	  return driver;
+  }
+  
+  public String getDateTime() {
+	  return dateTime;
   }
   
   public void waitForVisibility(WebElement e) {

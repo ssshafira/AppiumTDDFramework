@@ -69,7 +69,7 @@ public class ProductTests extends BaseTest {
 	
 		@AfterMethod
 		public void afterMethod() {
-			productsPage.pressSideMenu();
+			sidePage = productsPage.pressSideMenu();
 			logoutPage = sidePage.pressLogoutMenu();
 			logoutPage.logout();
 		}

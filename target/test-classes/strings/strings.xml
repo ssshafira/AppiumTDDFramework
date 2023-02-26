@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources>
-	<string name = "err_invalid_username_or_password">Provided credentials do not match any user in this service.</string>
-	<string name = "products_title">Products</string>
-	<string name = "slb_title">Sauce Labs Backpack</string>
-	<string name = "slb_price">$29.99</string>
-	<string name = "slb_desc">carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.</string>
-</resources>

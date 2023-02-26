@@ -21,28 +21,33 @@ public class LoginPage extends BaseTest {
 	private WebElement errTxt;
 	
 	public LoginPage enterUsername(String username) {
+		utils.log().info("Login with username : " + username);
 		sendKeys(usernameTxtFld, username);
 		return this;
 	}
 	
 	public LoginPage enterPassword(String password) {
+		utils.log().info("Login with password : " + password);
 		sendKeys(passwordTxtFld, password);
 		return this;
 	}
 	
 	public ProductsPage pressLoginBtn() {
+		utils.log().info("Click login button");
 		click(loginBtn);
 		return new ProductsPage();
 	}
 	
 	public ProductsPage login(String username, String password) {
+		utils.log().info("Do login");
 		enterUsername(username);
 		enterPassword(password);
 		return pressLoginBtn();
 	}
 	
 	public String getErrTxt() {
-		return getAttribute(errTxt, "text");
+		utils.log().info("Error message : " + getText(errTxt));
+		return getText(errTxt);
 	}
 	  
 }

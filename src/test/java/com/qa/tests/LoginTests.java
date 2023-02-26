@@ -13,6 +13,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 
 import java.io.InputStream;
+import java.lang.reflect.Method;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -54,11 +55,12 @@ public class LoginTests extends BaseTest {
 		}
 		
 		@BeforeMethod
-		public void beforeMethod() {
+		public void beforeMethod(Method m) {
 			sidePage = new SidePage();
 			loginPage = new LoginPage();
 			sidePage.pressSideMenu();
 			sidePage.pressLoginMenu();
+			utils.log().info("\n ***** Starting Test : " + m.getName() + " ***** \n");
 		}
 	
 		@AfterMethod
@@ -80,7 +82,7 @@ public class LoginTests extends BaseTest {
 	  @Test
 	  public void invalidPassword() {
 		loginPage.enterUsername(loginUsers.getJSONObject("invalidPassword").getString("username"));
-		loginPage.enterPassword(loginUsers.getJSONObject("invalidPassword").getString("username"));
+		loginPage.enterPassword(loginUsers.getJSONObject("invalidPassword").getString("password"));
 		loginPage.pressLoginBtn();
 		  		  
 		String actualErrTxt = loginPage.getErrTxt();
