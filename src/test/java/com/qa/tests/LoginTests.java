@@ -49,7 +49,11 @@ public class LoginTests extends BaseTest {
 	
 		@AfterClass
 		public void afterClass() {
-			sidePage = productsPage.pressSideMenu();
+			if (this.productsPage != null ) {
+				sidePage = productsPage.pressSideMenu();
+			} else {
+				sidePage = loginPage.pressSideMenu();	
+			}
 			logoutPage = sidePage.pressLogoutMenu();
 			loginPage = logoutPage.logout();
 		}

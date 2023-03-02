@@ -2,11 +2,9 @@ package com.qa.pages;
 
 import org.openqa.selenium.WebElement;
 
-import com.qa.BaseTest;
-
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
-public class LoginPage extends BaseTest {
+public class LoginPage extends SidePage {
 	
 	@AndroidFindBy(accessibility = "Username input field")
 	private WebElement usernameTxtFld;

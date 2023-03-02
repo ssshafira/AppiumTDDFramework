@@ -2,13 +2,13 @@ package com.qa;
 
 import com.qa.utils.TestUtils;
 
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.InteractsWithApps;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.screenrecording.CanRecordScreen;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
@@ -32,8 +32,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 public class BaseTest {
 	
@@ -44,6 +46,7 @@ public class BaseTest {
 	InputStream inputStream;
 	InputStream stringsis;
 	protected static TestUtils utils;
+	private static AppiumDriverLocalService server;
 	
 	public BaseTest() {
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -123,6 +126,24 @@ public class BaseTest {
 			stringsis.close();
 		}
 	}
+  }
+  
+  @BeforeSuite
+  public void beforeSuite() throws Exception {
+	  server = getAppiumServerDefault();
+	  server.start();
+	  server.clearOutPutStreams();
+	  System.out.println("Appium Server Started");
+  }
+  
+  @AfterSuite
+  public void afterSuite() {
+	  server.stop();
+	  System.out.println("Appium Server Stopped");
+  }
+  
+  public AppiumDriverLocalService getAppiumServerDefault() {
+	  return AppiumDriverLocalService.buildDefaultService();
   }
   
   public AppiumDriver getDriver() {

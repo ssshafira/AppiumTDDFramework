@@ -8,9 +8,9 @@
   <parameter name="UDID" value="RR8R105VJLX" />
     <classes>
 		<class name="com.qa.tests.LoginTests"/>
-	<!--  	<methods>
+	  	<methods>
       		<include name = "invalidUsername" />
-      	</methods> -->
+      	</methods> 
  <!-- <class name="com.qa.tests.ProductTests"/> -->     
     </classes>
   </test> <!-- Test -->
