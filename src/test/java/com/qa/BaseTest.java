@@ -47,6 +47,7 @@ public class BaseTest {
 	InputStream stringsis;
 	protected static TestUtils utils;
 	private static AppiumDriverLocalService server;
+	private FileOutputStream stream;
 	
 	public BaseTest() {
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -71,7 +72,7 @@ public class BaseTest {
 		}
 		
 		try {
-			FileOutputStream stream = new FileOutputStream(videoDir + File.separator + result.getName() + ".mp4");
+			stream = new FileOutputStream(videoDir + File.separator + result.getName() + ".mp4");
 			stream.write(Base64.decodeBase64(media));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -31,9 +31,7 @@ public class TestUtils {
 		
 		// Normalize the XML structure
 		document.getDocumentElement().normalize();
-		
-		// Element root = document.getDocumentElement();
-		
+				
 		// Get all elements
 		NodeList nList = document.getElementsByTagName("string");
 		
