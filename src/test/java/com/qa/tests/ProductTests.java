@@ -68,7 +68,8 @@ public class ProductTests extends BaseTest {
 		}
 	
 		@AfterMethod
-		public void afterMethod() {
+		public void afterMethod() throws InterruptedException {
+			Thread.sleep(2000);
 			sidePage = productsPage.pressSideMenu();
 			logoutPage = sidePage.pressLogoutMenu();
 			logoutPage.logout();
@@ -93,7 +94,7 @@ public class ProductTests extends BaseTest {
 		  
 		  productDetailsPage = productsPage.pressSLBTitle();
 		  
-		  Thread.sleep(3000);
+		  Thread.sleep(2000);
 		  String SLBTitle = productDetailsPage.getSLBTitle();
 		  sa.assertEquals(SLBTitle, strings.get("slb_title"));
 		  
